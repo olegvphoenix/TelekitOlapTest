@@ -82,7 +82,6 @@
             // radPivotGrid1
             // 
             this.radPivotGrid1.ColumnWidth = 476;
-            this.radPivotGrid1.Controls.Add(this._statusStrip);
             this.radPivotGrid1.DataMember = null;
             this.radPivotGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.radPivotGrid1.Location = new System.Drawing.Point(0, 0);
@@ -91,13 +90,15 @@
             this.radPivotGrid1.ShowFilterArea = true;
             this.radPivotGrid1.Size = new System.Drawing.Size(1161, 438);
             this.radPivotGrid1.TabIndex = 0;
+            this.radPivotGrid1.PivotGridElement.HScrollBar.Visibility = Telerik.WinControls.ElementVisibility.Visible;
+            this.radPivotGrid1.PivotGridElement.VScrollBar.Visibility = Telerik.WinControls.ElementVisibility.Visible;
             // 
             // _statusStrip
             // 
             this._statusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this._statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._statusLabel});
-            this._statusStrip.Location = new System.Drawing.Point(0, 412);
+            this._statusStrip.Dock = System.Windows.Forms.DockStyle.Bottom;
             this._statusStrip.Name = "_statusStrip";
             this._statusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 28, 0);
             this._statusStrip.Size = new System.Drawing.Size(1161, 26);
@@ -169,10 +170,11 @@
             // 
             this._datePickerFrom.CustomFormat = "dd.MM.yyyy";
             this._datePickerFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this._datePickerFrom.Location = new System.Drawing.Point(104, 5);
-            this._datePickerFrom.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this._datePickerFrom.AutoSize = false;
+            this._datePickerFrom.Location = new System.Drawing.Point(104, 7);
+            this._datePickerFrom.Margin = new System.Windows.Forms.Padding(3, 7, 3, 7);
             this._datePickerFrom.Name = "_datePickerFrom";
-            this._datePickerFrom.Size = new System.Drawing.Size(302, 32);
+            this._datePickerFrom.Size = new System.Drawing.Size(130, 28);
             this._datePickerFrom.TabIndex = 2;
             this._datePickerFrom.TabStop = false;
             this._datePickerFrom.Text = "01.01.2024";
@@ -183,7 +185,7 @@
             this._labelDateTo.AutoSize = true;
             this._labelDateTo.Dock = System.Windows.Forms.DockStyle.Fill;
             this._labelDateTo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this._labelDateTo.Location = new System.Drawing.Point(414, 0);
+            this._labelDateTo.Location = new System.Drawing.Point(240, 0);
             this._labelDateTo.Name = "_labelDateTo";
             this._labelDateTo.Size = new System.Drawing.Size(34, 42);
             this._labelDateTo.TabIndex = 3;
@@ -194,10 +196,11 @@
             // 
             this._datePickerTo.CustomFormat = "dd.MM.yyyy";
             this._datePickerTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this._datePickerTo.Location = new System.Drawing.Point(456, 5);
-            this._datePickerTo.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this._datePickerTo.AutoSize = false;
+            this._datePickerTo.Location = new System.Drawing.Point(281, 7);
+            this._datePickerTo.Margin = new System.Windows.Forms.Padding(3, 7, 3, 7);
             this._datePickerTo.Name = "_datePickerTo";
-            this._datePickerTo.Size = new System.Drawing.Size(302, 32);
+            this._datePickerTo.Size = new System.Drawing.Size(130, 28);
             this._datePickerTo.TabIndex = 4;
             this._datePickerTo.TabStop = false;
             this._datePickerTo.Text = "31.12.2024";
@@ -305,8 +308,19 @@
             this._contentPanel.Name = "_contentPanel";
             this._contentPanel.Size = new System.Drawing.Size(1161, 438);
             this._contentPanel.TabIndex = 5;
+            // Add status strip (Bottom), splitter (Right), field list (Right), then pivot (Fill)
+            this._fieldListSplitter = new System.Windows.Forms.Splitter();
+            this._fieldListSplitter.Dock = System.Windows.Forms.DockStyle.Right;
+            this._fieldListSplitter.Width = 4;
+            this._fieldListSplitter.MinSize = 150;
+            this._fieldListSplitter.MinExtra = 200;
+            this._fieldListSplitter.Cursor = System.Windows.Forms.Cursors.VSplit;
+
             this._contentPanel.Controls.Add(this.radPivotGrid1);
+            this._contentPanel.Controls.Add(this._statusStrip);
+            this._contentPanel.Controls.Add(this._fieldListSplitter);
             this._contentPanel.Controls.Add(this.radPivotFieldList1);
+            
             // 
             // Form1
             // 
@@ -354,6 +368,7 @@
         private Telerik.WinControls.UI.RadDateTimePicker _datePickerTo;
         private System.Windows.Forms.RichTextBox _logTextBox;
         private System.Windows.Forms.Splitter _logSplitter;
+        private System.Windows.Forms.Splitter _fieldListSplitter;
         private Telerik.WinControls.UI.RadButton _updateButton;
         private Telerik.WinControls.UI.RadCheckBox _exportXmlCheckBox;
         private Telerik.WinControls.UI.RadButton _saveProfileButton;
