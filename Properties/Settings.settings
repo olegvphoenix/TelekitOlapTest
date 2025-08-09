@@ -1,0 +1,21 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="OlapTest.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="OlapConnectionString" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Data Source=srvt-sqlolap-01;Catalog=Remains_t;Cube=Остатки</Value>
+    </Setting>
+    <Setting Name="DateHierarchyPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">[Дата-Календарь].[День]</Value>
+    </Setting>
+    <Setting Name="PivotGridConfiguration" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="AutoSaveLayout" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ExportXmlProfile" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

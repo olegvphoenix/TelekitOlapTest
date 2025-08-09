@@ -1,0 +1,8 @@
+﻿/bin/
+/obj/
+bin_v2.7z
+*.user
+*.suo
+*.pdb
+*.cache
+*.log
