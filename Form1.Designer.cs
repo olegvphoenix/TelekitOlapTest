@@ -18,13 +18,6 @@
                 components.Dispose();
             }
             
-            if (disposing && (_dateFilterTimer != null))
-            {
-                _dateFilterTimer.Stop();
-                _dateFilterTimer.Dispose();
-                _dateFilterTimer = null;
-            }
-            
                             // Clear reference to active form when closing
             if (disposing)
             {
@@ -67,9 +60,11 @@
             this._updateButton = new Telerik.WinControls.UI.RadButton();
             this._exportXmlCheckBox = new Telerik.WinControls.UI.RadCheckBox();
             this._saveProfileButton = new Telerik.WinControls.UI.RadButton();
+            this._exportButton = new Telerik.WinControls.UI.RadButton();
             this._loadProfileButton = new Telerik.WinControls.UI.RadButton();
             this._logTextBox = new System.Windows.Forms.RichTextBox();
             this._logSplitter = new System.Windows.Forms.Splitter();
+            this._contentPanel = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.radPivotGrid1)).BeginInit();
             this.radPivotGrid1.SuspendLayout();
             this._statusStrip.SuspendLayout();
@@ -80,6 +75,7 @@
             ((System.ComponentModel.ISupportInitialize)(this._updateButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._exportXmlCheckBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._saveProfileButton)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._exportButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._loadProfileButton)).BeginInit();
             this.SuspendLayout();
             // 
@@ -89,7 +85,7 @@
             this.radPivotGrid1.Controls.Add(this._statusStrip);
             this.radPivotGrid1.DataMember = null;
             this.radPivotGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.radPivotGrid1.Location = new System.Drawing.Point(0, 42);
+            this.radPivotGrid1.Location = new System.Drawing.Point(0, 0);
             this.radPivotGrid1.Margin = new System.Windows.Forms.Padding(12, 12, 12, 12);
             this.radPivotGrid1.Name = "radPivotGrid1";
             this.radPivotGrid1.ShowFilterArea = true;
@@ -128,7 +124,8 @@
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.AutoSize = true;
-            this.tableLayoutPanel1.ColumnCount = 9;
+            this.tableLayoutPanel1.ColumnCount = 10;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -143,10 +140,11 @@
             this.tableLayoutPanel1.Controls.Add(this._datePickerFrom, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this._labelDateTo, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this._datePickerTo, 4, 0);
-            this.tableLayoutPanel1.Controls.Add(this._autoSaveLayout, 5, 0);
-            this.tableLayoutPanel1.Controls.Add(this._exportXmlCheckBox, 6, 0);
-            this.tableLayoutPanel1.Controls.Add(this._saveProfileButton, 7, 0);
-            this.tableLayoutPanel1.Controls.Add(this._loadProfileButton, 8, 0);
+            this.tableLayoutPanel1.Controls.Add(this._exportButton, 5, 0);
+            this.tableLayoutPanel1.Controls.Add(this._autoSaveLayout, 6, 0);
+            this.tableLayoutPanel1.Controls.Add(this._exportXmlCheckBox, 7, 0);
+            this.tableLayoutPanel1.Controls.Add(this._saveProfileButton, 8, 0);
+            this.tableLayoutPanel1.Controls.Add(this._loadProfileButton, 9, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -220,7 +218,7 @@
             // 
             this._autoSaveLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this._autoSaveLayout.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this._autoSaveLayout.Location = new System.Drawing.Point(768, 10);
+            this._autoSaveLayout.Location = new System.Drawing.Point(1212, 10);
             this._autoSaveLayout.Margin = new System.Windows.Forms.Padding(5, 10, 5, 5);
             this._autoSaveLayout.Name = "_autoSaveLayout";
             this._autoSaveLayout.Size = new System.Drawing.Size(159, 23);
@@ -232,7 +230,7 @@
             // 
             this._exportXmlCheckBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this._exportXmlCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this._exportXmlCheckBox.Location = new System.Drawing.Point(933, 10);
+            this._exportXmlCheckBox.Location = new System.Drawing.Point(1376, 10);
             this._exportXmlCheckBox.Margin = new System.Windows.Forms.Padding(5, 10, 5, 5);
             this._exportXmlCheckBox.Name = "_exportXmlCheckBox";
             this._exportXmlCheckBox.Size = new System.Drawing.Size(159, 23);
@@ -243,7 +241,7 @@
             // _saveProfileButton
             // 
             this._saveProfileButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this._saveProfileButton.Location = new System.Drawing.Point(1102, 5);
+            this._saveProfileButton.Location = new System.Drawing.Point(1545, 5);
             this._saveProfileButton.Margin = new System.Windows.Forms.Padding(10, 5, 5, 5);
             this._saveProfileButton.Name = "_saveProfileButton";
             this._saveProfileButton.Size = new System.Drawing.Size(100, 32);
@@ -251,10 +249,21 @@
             this._saveProfileButton.Text = "Save profile";
             this._saveProfileButton.Click += new System.EventHandler(this._saveProfileButton_Click);
             // 
+            // _exportButton
+            // 
+            this._exportButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this._exportButton.Location = new System.Drawing.Point(768, 5);
+            this._exportButton.Margin = new System.Windows.Forms.Padding(10, 5, 5, 5);
+            this._exportButton.Name = "_exportButton";
+            this._exportButton.Size = new System.Drawing.Size(100, 32);
+            this._exportButton.TabIndex = 9;
+            this._exportButton.Text = "Export";
+            this._exportButton.Click += new System.EventHandler(this._exportButton_Click);
+            // 
             // _loadProfileButton
             // 
             this._loadProfileButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this._loadProfileButton.Location = new System.Drawing.Point(1212, 5);
+            this._loadProfileButton.Location = new System.Drawing.Point(1655, 5);
             this._loadProfileButton.Margin = new System.Windows.Forms.Padding(10, 5, 5, 5);
             this._loadProfileButton.Name = "_loadProfileButton";
             this._loadProfileButton.Size = new System.Drawing.Size(100, 32);
@@ -289,16 +298,25 @@
             this._logSplitter.TabIndex = 3;
             this._logSplitter.TabStop = false;
             // 
+            // _contentPanel
+            // 
+            this._contentPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._contentPanel.Location = new System.Drawing.Point(0, 0);
+            this._contentPanel.Name = "_contentPanel";
+            this._contentPanel.Size = new System.Drawing.Size(1161, 438);
+            this._contentPanel.TabIndex = 5;
+            this._contentPanel.Controls.Add(this.radPivotGrid1);
+            this._contentPanel.Controls.Add(this.radPivotFieldList1);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1419, 480);
-            this.Controls.Add(this.radPivotGrid1);
+            this.Controls.Add(this._contentPanel);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this._logSplitter);
             this.Controls.Add(this._logTextBox);
-            this.Controls.Add(this.radPivotFieldList1);
             this.Name = "Form1";
             this.Text = "Test tabular cube";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -315,6 +333,7 @@
             ((System.ComponentModel.ISupportInitialize)(this._updateButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._exportXmlCheckBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._saveProfileButton)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._exportButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._loadProfileButton)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -333,12 +352,13 @@
         private System.Windows.Forms.Label _labelDateTo;
         private Telerik.WinControls.UI.RadDateTimePicker _datePickerFrom;
         private Telerik.WinControls.UI.RadDateTimePicker _datePickerTo;
-        private System.Windows.Forms.Timer _dateFilterTimer;
         private System.Windows.Forms.RichTextBox _logTextBox;
         private System.Windows.Forms.Splitter _logSplitter;
         private Telerik.WinControls.UI.RadButton _updateButton;
         private Telerik.WinControls.UI.RadCheckBox _exportXmlCheckBox;
         private Telerik.WinControls.UI.RadButton _saveProfileButton;
         private Telerik.WinControls.UI.RadButton _loadProfileButton;
+        private Telerik.WinControls.UI.RadButton _exportButton;
+        private System.Windows.Forms.Panel _contentPanel;
     }
 }

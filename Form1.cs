@@ -13,7 +13,7 @@ using Telerik.Pivot.Adomd;
 using Telerik.Pivot.Core;
 using Telerik.Pivot.Core.Filtering;
 using Telerik.Pivot.Core.Olap;
-using Timer = System.Windows.Forms.Timer;
+using Telerik.WinControls.Export;
 
 namespace OlapTest
 {
@@ -54,15 +54,6 @@ namespace OlapTest
             LogMessage("Global exception handling activated");
 
             _autoSaveLayout.Checked = Properties.Settings.Default.ExportXmlProfile;
-
-            // Initialize timer for delayed filter application
-            _dateFilterTimer = new Timer();
-            _dateFilterTimer.Interval = 500; // 500ms delay
-            _dateFilterTimer.Tick += (s, e) => 
-            {
-                //_dateFilterTimer.Stop();
-                //RefreshData();
-            };
 
             // Subscribe to date change events
 
@@ -627,6 +618,55 @@ namespace OlapTest
             {
                 LogMessage($"[ERROR] Failed to load profile: {ex.Message}");
                 MessageBox.Show($"Error loading profile: {ex.Message}", 
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void _exportButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (var saveFileDialog = new SaveFileDialog())
+                {
+                    saveFileDialog.Filter = "Excel Workbook (*.xlsx)|*.xlsx";
+                    saveFileDialog.FilterIndex = 1;
+                    saveFileDialog.RestoreDirectory = true;
+                    saveFileDialog.FileName = $"PivotExport_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx";
+
+                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        var exporter = new PivotGridSpreadExport(this.radPivotGrid1)
+                        {
+                            ExportFormat = SpreadExportFormat.Xlsx
+                        };
+                        exporter.RunExport(saveFileDialog.FileName, new SpreadExportRenderer());
+
+                        LogMessage($"[EXPORT] XLSX exported to: {saveFileDialog.FileName}");
+
+                        try
+                        {
+                            var psi = new ProcessStartInfo
+                            {
+                                FileName = saveFileDialog.FileName,
+                                UseShellExecute = true
+                            };
+                            Process.Start(psi);
+                            LogMessage($"[EXPORT] Opened: {saveFileDialog.FileName}");
+                        }
+                        catch (Exception openEx)
+                        {
+                            LogMessage($"[EXPORT WARNING] Could not open file: {openEx.Message}");
+                        }
+
+                        MessageBox.Show($"Data exported successfully to:\n{saveFileDialog.FileName}",
+                            "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogMessage($"[ERROR] Failed to export XLSX: {ex.Message}");
+                MessageBox.Show($"Error exporting: {ex.Message}",
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
