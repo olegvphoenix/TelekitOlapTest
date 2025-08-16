@@ -28,13 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DevExpress.XtraCharts.XYDiagram xyDiagram1 = new DevExpress.XtraCharts.XYDiagram();
-            DevExpress.XtraCharts.PointSeriesLabel pointSeriesLabel1 = new DevExpress.XtraCharts.PointSeriesLabel();
-            DevExpress.XtraCharts.LineSeriesView lineSeriesView1 = new DevExpress.XtraCharts.LineSeriesView();
-            DevExpress.XtraCharts.XYDiagram xyDiagram2 = new DevExpress.XtraCharts.XYDiagram();
-            DevExpress.XtraCharts.PointSeriesLabel pointSeriesLabel2 = new DevExpress.XtraCharts.PointSeriesLabel();
-            DevExpress.XtraCharts.LineSeriesView lineSeriesView2 = new DevExpress.XtraCharts.LineSeriesView();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RemainsTabularTelerikReportForm));
             this.pivotGrid = new DevExpress.XtraPivotGrid.PivotGridControl();
             this.pnlFilter = new DevExpress.XtraEditors.XtraScrollableControl();
             this.lblOrderType = new DevExpress.XtraEditors.LabelControl();
@@ -86,18 +79,13 @@
             this.lblPeriodTo = new DevExpress.XtraEditors.LabelControl();
             this.txtPeriodFrom = new DevExpress.XtraEditors.DateEdit();
             this.lblPeriodFrom = new DevExpress.XtraEditors.LabelControl();
-            this.splitContainer = new DevExpress.XtraEditors.SplitContainerControl();
             this.layoutControl = new DevExpress.XtraLayout.LayoutControl();
             this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.chartControlOlap = new DevExpress.XtraCharts.ChartControl();
             this.loadManager = new TruckService.ADTS.Client.BaseUI.Frames.ExternalLoadManagerFrame();
             this.tabChilds = new DevExpress.XtraTab.XtraTabControl();
             this.tbpGrid = new DevExpress.XtraTab.XtraTabPage();
             this.tbpChart = new DevExpress.XtraTab.XtraTabPage();
-            this.splitContainerControl1 = new DevExpress.XtraEditors.SplitContainerControl();
-            this.pivotGridControlForChart = new DevExpress.XtraPivotGrid.PivotGridControl();
-            this.chartReport = new DevExpress.XtraCharts.ChartControl();
             this.txtContractor = new DevExpress.XtraEditors.ButtonEdit();
             this.lblContractor = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.barBaseFormManager)).BeginInit();
@@ -125,35 +113,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtPeriodTo.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPeriodFrom.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPeriodFrom.Properties.CalendarTimeProperties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer.Panel1)).BeginInit();
-            this.splitContainer.Panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer.Panel2)).BeginInit();
-            this.splitContainer.Panel2.SuspendLayout();
-            this.splitContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl)).BeginInit();
             this.layoutControl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chartControlOlap)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(xyDiagram1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(pointSeriesLabel1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(lineSeriesView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tabChilds)).BeginInit();
             this.tabChilds.SuspendLayout();
             this.tbpGrid.SuspendLayout();
             this.tbpChart.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1.Panel1)).BeginInit();
-            this.splitContainerControl1.Panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1.Panel2)).BeginInit();
-            this.splitContainerControl1.Panel2.SuspendLayout();
-            this.splitContainerControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pivotGridControlForChart)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chartReport)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(xyDiagram2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(pointSeriesLabel2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(lineSeriesView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtContractor.Properties)).BeginInit();
             this.SuspendLayout();
             // 
@@ -170,12 +137,11 @@
             this.pivotGrid.OptionsCustomization.FilterPanelVisible = DevExpress.XtraPivotGrid.FilterPanelVisible.Never;
             this.pivotGrid.OptionsPrint.MergeRowFieldValues = false;
             this.pivotGrid.OptionsView.ShowCustomTotalsForSingleValues = true;
-            this.pivotGrid.Size = new System.Drawing.Size(1327, 243);
+            this.pivotGrid.Size = new System.Drawing.Size(1327, 152);
             this.pivotGrid.TabIndex = 4;
             this.pivotGrid.CustomFieldSort += new DevExpress.XtraPivotGrid.PivotGridCustomFieldSortEventHandler(this.pivotGrid_CustomFieldSort);
             this.pivotGrid.OLAPQueryData += new System.EventHandler<DevExpress.XtraPivotGrid.PivotOlapQueryDataEventArgs>(this.pivotGrid_OLAPQueryData);
             this.pivotGrid.AsyncOperationCompleted += new System.EventHandler(this.pivotGrid_AsyncOperationCompleted);
-            this.pivotGrid.Click += new System.EventHandler(this.pivotGrid_Click);
             // 
             // pnlFilter
             // 
@@ -709,37 +675,15 @@
             this.lblPeriodFrom.TabIndex = 177;
             this.lblPeriodFrom.Text = "Период с";
             // 
-            // splitContainer
-            // 
-            this.splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer.FixedPanel = DevExpress.XtraEditors.SplitFixedPanel.None;
-            this.splitContainer.Horizontal = false;
-            this.splitContainer.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer.Name = "splitContainer";
-            // 
-            // splitContainer.Panel1
-            // 
-            this.splitContainer.Panel1.Controls.Add(this.layoutControl);
-            this.splitContainer.Panel1.Text = "Panel1";
-            // 
-            // splitContainer.Panel2
-            // 
-            this.splitContainer.Panel2.Controls.Add(this.chartControlOlap);
-            this.splitContainer.Panel2.Text = "Panel2";
-            this.splitContainer.Size = new System.Drawing.Size(1331, 259);
-            this.splitContainer.SplitterPosition = 247;
-            this.splitContainer.TabIndex = 6;
-            this.splitContainer.Text = "splitContainerControl1";
-            // 
             // layoutControl
             // 
             this.layoutControl.Controls.Add(this.pivotGrid);
             this.layoutControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.layoutControl.Location = new System.Drawing.Point(0, 0);
             this.layoutControl.Name = "layoutControl";
-            this.layoutControl.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(402, 159, 250, 350);
+            this.layoutControl.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(402, 159, 776, 612);
             this.layoutControl.Root = this.layoutControlGroup1;
-            this.layoutControl.Size = new System.Drawing.Size(1331, 247);
+            this.layoutControl.Size = new System.Drawing.Size(1331, 156);
             this.layoutControl.TabIndex = 5;
             this.layoutControl.Text = "layoutControl1";
             // 
@@ -753,7 +697,7 @@
             this.layoutControlItem1});
             this.layoutControlGroup1.Name = "Root";
             this.layoutControlGroup1.Padding = new DevExpress.XtraLayout.Utils.Padding(0, 0, 0, 0);
-            this.layoutControlGroup1.Size = new System.Drawing.Size(1331, 247);
+            this.layoutControlGroup1.Size = new System.Drawing.Size(1331, 156);
             this.layoutControlGroup1.TextVisible = false;
             // 
             // layoutControlItem1
@@ -762,41 +706,9 @@
             this.layoutControlItem1.CustomizationFormText = "layoutControlItem1";
             this.layoutControlItem1.Location = new System.Drawing.Point(0, 0);
             this.layoutControlItem1.Name = "layoutControlItem1";
-            this.layoutControlItem1.Size = new System.Drawing.Size(1331, 247);
+            this.layoutControlItem1.Size = new System.Drawing.Size(1331, 156);
             this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem1.TextVisible = false;
-            // 
-            // chartControlOlap
-            // 
-            this.chartControlOlap.AppearanceNameSerializable = "Chameleon";
-            this.chartControlOlap.Cursor = System.Windows.Forms.Cursors.Default;
-            this.chartControlOlap.DataSource = this.pivotGrid;
-            xyDiagram1.AxisX.Label.Staggered = true;
-            xyDiagram1.AxisX.Title.Text = "Тип клиент";
-            xyDiagram1.AxisX.VisibleInPanesSerializable = "-1";
-            xyDiagram1.AxisY.Title.Text = "[Measures].countdaysInInterval";
-            xyDiagram1.AxisY.VisibleInPanesSerializable = "-1";
-            xyDiagram1.DefaultPane.BackColor = System.Drawing.Color.Transparent;
-            xyDiagram1.DefaultPane.ScrollBarOptions.YAxisScrollBarAlignment = DevExpress.XtraCharts.ScrollBarAlignment.Far;
-            this.chartControlOlap.Diagram = xyDiagram1;
-            this.chartControlOlap.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chartControlOlap.Legend.MaxHorizontalPercentage = 30D;
-            this.chartControlOlap.Legend.Name = "Default Legend";
-            this.chartControlOlap.Location = new System.Drawing.Point(0, 0);
-            this.chartControlOlap.Name = "chartControlOlap";
-            this.chartControlOlap.SelectionMode = DevExpress.XtraCharts.ElementSelectionMode.Extended;
-            this.chartControlOlap.SeriesDataMember = "Series";
-            this.chartControlOlap.SeriesSerializable = new DevExpress.XtraCharts.Series[0];
-            this.chartControlOlap.SeriesTemplate.ArgumentDataMember = "Arguments";
-            this.chartControlOlap.SeriesTemplate.ArgumentScaleType = DevExpress.XtraCharts.ScaleType.Qualitative;
-            pointSeriesLabel1.TextPattern = "{V:###,###,##0.00}";
-            this.chartControlOlap.SeriesTemplate.Label = pointSeriesLabel1;
-            this.chartControlOlap.SeriesTemplate.LabelsVisibility = DevExpress.Utils.DefaultBoolean.False;
-            this.chartControlOlap.SeriesTemplate.SeriesDataMember = "Series";
-            this.chartControlOlap.SeriesTemplate.ValueDataMembersSerializable = "Values";
-            this.chartControlOlap.SeriesTemplate.View = lineSeriesView1;
-            this.chartControlOlap.Size = new System.Drawing.Size(0, 0);
-            this.chartControlOlap.TabIndex = 1;
             // 
             // loadManager
             // 
@@ -822,101 +734,16 @@
             // 
             // tbpGrid
             // 
-            this.tbpGrid.Controls.Add(this.splitContainer);
+            this.tbpGrid.Controls.Add(this.layoutControl);
             this.tbpGrid.Name = "tbpGrid";
             this.tbpGrid.Size = new System.Drawing.Size(1331, 259);
             this.tbpGrid.Text = "xtraTabPage1";
             // 
             // tbpChart
             // 
-            this.tbpChart.Controls.Add(this.splitContainerControl1);
             this.tbpChart.Name = "tbpChart";
             this.tbpChart.Size = new System.Drawing.Size(1331, 259);
             this.tbpChart.Text = "xtraTabPage2";
-            // 
-            // splitContainerControl1
-            // 
-            this.splitContainerControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainerControl1.FixedPanel = DevExpress.XtraEditors.SplitFixedPanel.None;
-            this.splitContainerControl1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainerControl1.Name = "splitContainerControl1";
-            // 
-            // splitContainerControl1.Panel1
-            // 
-            this.splitContainerControl1.Panel1.Controls.Add(this.pivotGridControlForChart);
-            this.splitContainerControl1.Panel1.Text = "Panel1";
-            // 
-            // splitContainerControl1.Panel2
-            // 
-            this.splitContainerControl1.Panel2.Controls.Add(this.chartReport);
-            this.splitContainerControl1.Panel2.Text = "Panel2";
-            this.splitContainerControl1.Size = new System.Drawing.Size(1331, 259);
-            this.splitContainerControl1.SplitterPosition = 386;
-            this.splitContainerControl1.TabIndex = 46;
-            this.splitContainerControl1.Text = "splitContainerChart";
-            // 
-            // pivotGridControlForChart
-            // 
-            this.pivotGridControlForChart.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pivotGridControlForChart.Location = new System.Drawing.Point(0, 0);
-            this.pivotGridControlForChart.Name = "pivotGridControlForChart";
-            this.pivotGridControlForChart.OLAPDataProvider = DevExpress.XtraPivotGrid.OLAPDataProvider.Adomd;
-            this.pivotGridControlForChart.OptionsBehavior.UseAsyncMode = true;
-            this.pivotGridControlForChart.OptionsChartDataSource.DataProvidePriority = DevExpress.XtraPivotGrid.PivotChartDataProvidePriority.Columns;
-            this.pivotGridControlForChart.OptionsChartDataSource.MaxAllowedPointCountInSeries = 400;
-            this.pivotGridControlForChart.OptionsChartDataSource.SelectionOnly = false;
-            this.pivotGridControlForChart.OptionsCustomization.CustomizationFormLayout = DevExpress.XtraPivotGrid.Customization.CustomizationFormLayout.TopPanelOnly;
-            this.pivotGridControlForChart.OptionsView.ShowColumnGrandTotalHeader = false;
-            this.pivotGridControlForChart.OptionsView.ShowColumnGrandTotals = false;
-            this.pivotGridControlForChart.OptionsView.ShowCustomTotalsForSingleValues = true;
-            this.pivotGridControlForChart.Size = new System.Drawing.Size(386, 259);
-            this.pivotGridControlForChart.TabIndex = 45;
-            this.pivotGridControlForChart.OLAPQueryData += new System.EventHandler<DevExpress.XtraPivotGrid.PivotOlapQueryDataEventArgs>(this.pivotGrid_OLAPQueryData);
-            this.pivotGridControlForChart.AsyncOperationCompleted += new System.EventHandler(this.pivotGrid_AsyncOperationCompleted);
-            this.pivotGridControlForChart.Click += new System.EventHandler(this.pivotGridControlForChart_Click);
-            // 
-            // chartReport
-            // 
-            this.chartReport.AppearanceNameSerializable = "Chameleon";
-            this.chartReport.Cursor = System.Windows.Forms.Cursors.Default;
-            this.chartReport.DataSource = this.pivotGridControlForChart;
-            xyDiagram2.AxisX.DateTimeScaleOptions.AutoGrid = false;
-            xyDiagram2.AxisX.GridLines.MinorVisible = true;
-            xyDiagram2.AxisX.GridLines.Visible = true;
-            xyDiagram2.AxisX.Label.Angle = -60;
-            xyDiagram2.AxisX.Label.EnableAntialiasing = DevExpress.Utils.DefaultBoolean.True;
-            xyDiagram2.AxisX.Title.Text = "Дата";
-            xyDiagram2.AxisX.VisibleInPanesSerializable = "-1";
-            xyDiagram2.AxisY.GridLines.MinorVisible = true;
-            xyDiagram2.AxisY.Label.TextPattern = "{V:N0}";
-            xyDiagram2.AxisY.VisibleInPanesSerializable = "-1";
-            xyDiagram2.DefaultPane.BackColor = System.Drawing.Color.Transparent;
-            xyDiagram2.DefaultPane.ScrollBarOptions.YAxisScrollBarAlignment = DevExpress.XtraCharts.ScrollBarAlignment.Far;
-            xyDiagram2.EnableAxisXScrolling = true;
-            xyDiagram2.EnableAxisXZooming = true;
-            xyDiagram2.EnableAxisYScrolling = true;
-            xyDiagram2.EnableAxisYZooming = true;
-            this.chartReport.Diagram = xyDiagram2;
-            this.chartReport.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chartReport.Legend.MaxHorizontalPercentage = 30D;
-            this.chartReport.Legend.Name = "Default Legend";
-            this.chartReport.Location = new System.Drawing.Point(0, 0);
-            this.chartReport.Name = "chartReport";
-            this.chartReport.PivotGridDataSourceOptions.AutoBindingSettingsEnabled = false;
-            this.chartReport.PivotGridDataSourceOptions.AutoLayoutSettingsEnabled = false;
-            this.chartReport.SelectionMode = DevExpress.XtraCharts.ElementSelectionMode.Extended;
-            this.chartReport.SeriesDataMember = "Series";
-            this.chartReport.SeriesSerializable = new DevExpress.XtraCharts.Series[0];
-            this.chartReport.SeriesTemplate.ArgumentDataMember = "Arguments";
-            this.chartReport.SeriesTemplate.ArgumentScaleType = DevExpress.XtraCharts.ScaleType.Qualitative;
-            pointSeriesLabel2.ResolveOverlappingMode = DevExpress.XtraCharts.ResolveOverlappingMode.JustifyAroundPoint;
-            pointSeriesLabel2.TextPattern = "{V:#.00}";
-            this.chartReport.SeriesTemplate.Label = pointSeriesLabel2;
-            this.chartReport.SeriesTemplate.SeriesDataMember = "Series";
-            this.chartReport.SeriesTemplate.ValueDataMembersSerializable = "Values";
-            this.chartReport.SeriesTemplate.View = lineSeriesView2;
-            this.chartReport.Size = new System.Drawing.Size(933, 259);
-            this.chartReport.TabIndex = 1;
             // 
             // txtContractor
             // 
@@ -943,10 +770,9 @@
             this.Controls.Add(this.tabChilds);
             this.Controls.Add(this.pnlFilter);
             this.Controls.Add(this.loadManager);
-            this.IconOptions.Icon = ((System.Drawing.Icon)(resources.GetObject("RemainsTabularTelerikReportForm.IconOptions.Icon")));
             this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "RemainsTabularTelerikReportForm";
-            this.Text = "Комплексный отчёт по товародвижению(табулярный telerik)";
+            this.Text = "Комплексный отчёт по товародвижению(табулярный)";
             this.Load += new System.EventHandler(this.RemainsTabularTelerikReportForm_Load);
             this.Controls.SetChildIndex(this.loadManager, 0);
             this.Controls.SetChildIndex(this.pnlFilter, 0);
@@ -977,35 +803,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtPeriodTo.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPeriodFrom.Properties.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPeriodFrom.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer.Panel1)).EndInit();
-            this.splitContainer.Panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer.Panel2)).EndInit();
-            this.splitContainer.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
-            this.splitContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl)).EndInit();
             this.layoutControl.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(xyDiagram1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(pointSeriesLabel1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(lineSeriesView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chartControlOlap)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tabChilds)).EndInit();
             this.tabChilds.ResumeLayout(false);
             this.tbpGrid.ResumeLayout(false);
             this.tbpChart.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1.Panel1)).EndInit();
-            this.splitContainerControl1.Panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1.Panel2)).EndInit();
-            this.splitContainerControl1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1)).EndInit();
-            this.splitContainerControl1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pivotGridControlForChart)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(xyDiagram2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(pointSeriesLabel2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(lineSeriesView2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chartReport)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtContractor.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1016,17 +821,12 @@
 
         private DevExpress.XtraPivotGrid.PivotGridControl pivotGrid;
         private DevExpress.XtraEditors.XtraScrollableControl pnlFilter;
-        private DevExpress.XtraEditors.SplitContainerControl splitContainer;
-        private DevExpress.XtraCharts.ChartControl chartControlOlap;
         private DevExpress.XtraTab.XtraTabControl tabChilds;
         private DevExpress.XtraTab.XtraTabPage tbpGrid;
         private DevExpress.XtraTab.XtraTabPage tbpChart;
-        private DevExpress.XtraCharts.ChartControl chartReport;
         private DevExpress.XtraLayout.LayoutControl layoutControl;
         private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup1;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
-        private DevExpress.XtraPivotGrid.PivotGridControl pivotGridControlForChart;
-        private DevExpress.XtraEditors.SplitContainerControl splitContainerControl1;
         private Controls.TextMultiSelectFromExcelButtonEdit txtUniqueNumber;
         private DevExpress.XtraEditors.LabelControl lblUniqueNumber;
         private DevExpress.XtraEditors.TextEdit txtName;

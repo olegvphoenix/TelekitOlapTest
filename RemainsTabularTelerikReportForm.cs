@@ -64,7 +64,6 @@ namespace TruckService.ADTS.Client.AppForms.Grid
         private object _lastGridSettings = null;
         private readonly object _lastGridChartSettings = null;
 
-        private bool _isFilterAppliedToChart = false;
         private bool _isFilterAppliedToGrid = false;
         private bool _isAsyncInProgress = false;
 
@@ -176,17 +175,10 @@ namespace TruckService.ADTS.Client.AppForms.Grid
                 return;
             _isGridInitialized = true;
 
-            pivotGrid.CellSelectionChanged += pivotGrid_CellSelectionChanged;
-            pivotGrid.CellClick += pivotGrid_CellClick;
             pivotGrid.FieldValueExpanded += pivotGrid_FieldValueExpanded;
             pivotGrid.FieldValueCollapsed += pivotGrid_FieldValueCollapsed;
             pivotGrid.FieldValueNotExpanded += pivotGrid_FieldValueNotExpanded;
             pivotGrid.FieldValueExpanding += pivotGrid_FieldValueExpanding;
-
-            pivotGridControlForChart.CellSelectionChanged += pivotGridControlForChart_CellSelectionChanged;
-            pivotGridControlForChart.CellClick += pivotGridControlForChart_CellClick;
-            pivotGridControlForChart.FieldValueExpanded += pivotGridControlForChart_FieldValueExpanded;
-            pivotGridControlForChart.FieldValueCollapsed += pivotGridControlForChart_FieldValueCollapsed;
         }
 
         private void ConfigureAndPopulateLookUps()
@@ -276,9 +268,13 @@ namespace TruckService.ADTS.Client.AppForms.Grid
             cmbAssortimentGoods.CheckAll();
 
             if (tabChilds.SelectedTabPage == tbpChart)
-                BindChart();
+            {
+                // TODO
+            }
             else if (tabChilds.SelectedTabPage == tbpGrid)
+            {
                 BindData();
+            }
         }
 
         //применить установленные значения фильтров к фильтрам активного pivottable
@@ -290,23 +286,9 @@ namespace TruckService.ADTS.Client.AppForms.Grid
 
                 InitialiseCube();
 
-                _isFilterAppliedToChart = false;
                 _isFilterAppliedToGrid = false;
                 if (tabChilds.SelectedTabPage == tbpChart)
                 {
-                    if (!_isFilterAppliedToChart)
-                    {
-                        pivotGridControlForChart.BeginUpdate();
-                        try
-                        {
-                            BindChart();
-                        }
-                        finally
-                        {
-                            pivotGridControlForChart.EndUpdate();
-                        }
-                        _isFilterAppliedToChart = true;
-                    }
                 }
                 else if (tabChilds.SelectedTabPage == tbpGrid)
                 {
@@ -486,80 +468,6 @@ namespace TruckService.ADTS.Client.AppForms.Grid
                 .Select(n => n.Trim());
         }
 
-        //установить значения фильтров в области фильтров в таблице графика на основании значений фильтров на панели поиска
-        private void DoApplyFilterToOlapChart()
-        {
-            // название - txtName - part_name - [Наименование].[Наименование].[Наименование] - LIKE part_name%
-            var fieldPartName = pivotGridControlForChart.Fields["[Номенклатура].[Название детали].[Название детали]"];
-
-            OlapUtility.MoveFieldToFilterArea(fieldPartName);
-
-            fieldPartName.FilterValues.FilterType = PivotFilterType.Excluded;
-            fieldPartName.FilterValues.Clear();
-
-            if (!string.IsNullOrEmpty(txtName.Text))
-            {
-                var partNamePattern = txtName.Text.ToLower();
-                var valuesToInclude = new List<object>();
-
-                foreach (var filterValue in fieldPartName.FilterValues.ValuesIncluded)
-                {
-                    var stringFilterValue = filterValue.ToString();
-                    // Строгое совпадение (35687)
-                    if (stringFilterValue.ToLower().Equals(partNamePattern))
-                    {
-                        valuesToInclude.Add(stringFilterValue);
-                    }
-                }
-
-                fieldPartName.FilterValues.SetValues(valuesToInclude.ToArray(), PivotFilterType.Included, false);
-            }
-
-
-            var fieldSkubaNum = pivotGridControlForChart.Fields["[Номенклатура].[SKN].[SKN]"];
-            OlapUtility.MoveFieldToFilterArea(fieldSkubaNum);
-
-            fieldSkubaNum.FilterValues.FilterType = PivotFilterType.Excluded;
-            fieldSkubaNum.FilterValues.Clear();
-
-            var sknValues = getMultiTextEditorValues(txtSKNNumber);
-            if (sknValues.Any())
-                fieldSkubaNum.FilterValues.SetValues(sknValues.ToArray(), PivotFilterType.Included, false);
-
-            //№ уникальный детали
-            var txtNumUnikue = pivotGridControlForChart.Fields["[Номенклатура].[№ уникальный детали].[№ уникальный детали]"];
-            OlapUtility.MoveFieldToFilterArea(txtNumUnikue);
-
-            txtNumUnikue.FilterValues.FilterType = PivotFilterType.Excluded;
-            txtNumUnikue.FilterValues.Clear();
-
-            var uniqueNumberValues = getMultiTextEditorValues(txtUniqueNumber);
-            if (uniqueNumberValues.Any())
-                txtNumUnikue.FilterValues.SetValues(uniqueNumberValues.ToArray(), PivotFilterType.Included, false);
-
-            //Код детали
-            var txtPrtCode = pivotGridControlForChart.Fields["[Номенклатура].[Код детали].[Код детали]"];
-            OlapUtility.MoveFieldToFilterArea(txtPrtCode);
-
-            txtPrtCode.FilterValues.FilterType = PivotFilterType.Excluded;
-            txtPrtCode.FilterValues.Clear();
-
-            var partCodeValues = getMultiTextEditorValues(txtPartCode);
-            if (partCodeValues.Any())
-                txtPrtCode.FilterValues.SetValues(partCodeValues.ToArray(), PivotFilterType.Included, false);
-
-            //Код товара
-            var txtGoodCode = pivotGridControlForChart.Fields["[Номенклатура].[Код товара].[Код товара]"];
-            OlapUtility.MoveFieldToFilterArea(txtGoodCode);
-
-            txtGoodCode.FilterValues.FilterType = PivotFilterType.Excluded;
-            txtGoodCode.FilterValues.Clear();
-
-            var goodsCodeValues = getMultiTextEditorValues(txtGoodsCode);
-            if (goodsCodeValues.Any())
-                txtGoodCode.FilterValues.SetValues(goodsCodeValues.ToArray(), PivotFilterType.Included, false);
-        }
-
         public override List<FilterHistoryColumn> GetFilterHistoryColumns()
         {
             return new List<FilterHistoryColumn>
@@ -613,7 +521,7 @@ namespace TruckService.ADTS.Client.AppForms.Grid
             var presentation = itemPresentation.EditValue.ToString();
             _presentation = presentation;
 
-            var isChart = presentation == "График";
+            bool isChart = false;
             using (new WaitCursor())
             {
                 if (!isChart)
@@ -667,59 +575,6 @@ namespace TruckService.ADTS.Client.AppForms.Grid
 
                     SelectTabPage(tbpGrid);
                 }
-                else if (isChart)
-                {
-
-                    // детачим кнопки грида
-                    if (_attachedButtons.Contains(ToolBarButtonIndex.GridLayoutSettings))
-                    {
-                        _attachedButtons.Remove(ToolBarButtonIndex.GridLayoutSettings);
-
-                        DetachToolBarButton(_menuButtons, _buttons, ToolBarButtonIndex.GridLayoutSettings, null);
-
-                        var item = (BarEditItem)_buttons[(int)ToolBarButtonIndex.GridLayoutSettings].Item;
-                        item.SuperTip.Items.Clear();
-                        item.EditValueChanged -= gridLayout_EditValueChanged;
-                        GridLayoutSettingsUtility.DetachBarEditItem(item);
-                    }
-                    // аттачим кнопки грида для графика
-                    if (!_attachedButtons.Contains(ToolBarButtonIndex.GridLayoutSettings))
-                    {
-                        AttachToolBarButton(_menuButtons, _buttons, ToolBarButtonIndex.GridLayoutSettings, null);
-
-                        var item = (BarEditItem)_buttons[(int)ToolBarButtonIndex.GridLayoutSettings].Item;
-                        var titleItem = new ToolTipTitleItem();
-                        titleItem.Text = "Настройки таблицы";
-                        if (item.SuperTip == null)
-                            item.SuperTip = new SuperToolTip();
-                        item.SuperTip.Items.Add(titleItem);
-
-                        GridLayoutSettingsUtility.AttachBarEditItem(item, GridChartLayoutSettingsCode, null, null, pivotGridControlForChart, _lastGridChartSettings);
-                        // если открываем форму, то сохраняем состояние, иначе если уже есть сохранённое, то загружаем
-                        if (_lastGridChartSettings != null)
-                        {
-                            if (item.EditValue != _lastGridChartSettings)
-                            {
-                                item.EditValue = _lastGridChartSettings;
-                                if (iNeedRefresh)
-                                {
-                                    GridLayoutSettingsUtility.RefreshPivotGrid(GridChartLayoutSettingsCode, pivotGridControlForChart);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            _lastGridSettings = item.EditValue;
-                            if (iNeedRefresh)
-                                GridLayoutSettingsUtility.RefreshPivotGrid(GridChartLayoutSettingsCode, pivotGridControlForChart);
-                        }
-
-                        item.EditValueChanged += gridLayout_EditValueChanged;
-                        _attachedButtons.Add(ToolBarButtonIndex.GridLayoutSettings);
-
-                    }
-                    SelectTabPage(tbpChart);
-                }
 
                 RegistryUtility.RemainsPresentation = presentation;
             }
@@ -735,102 +590,6 @@ namespace TruckService.ADTS.Client.AppForms.Grid
 
             tabChilds.SelectedTabPage = tabPage;
         }
-
-        #region Chart
-
-        private void InitChart()
-        {
-            chartReport.Legend.AlignmentHorizontal = LegendAlignmentHorizontal.Left;
-            chartReport.Legend.BackColor = new Color();
-
-            chartReport.ObjectSelected += chartReport_ObjectSelected;
-            chartReport.ObjectHotTracked += chartReport_ObjectHotTracked;
-            ((XYDiagram)chartReport.Diagram).AxisY.Label.TextPattern = "{V:N}";
-
-            ChartUtility.ConfigureChartSelection(chartReport);
-
-            chartReport.PivotGridDataSourceOptions.AutoLayoutSettingsEnabled = false;
-            ((XYDiagram)chartReport.Diagram).AxisX.DateTimeScaleOptions.MeasureUnit = DateTimeMeasureUnit.Day;
-            ((XYDiagram)chartReport.Diagram).AxisX.DateTimeScaleOptions.GridAlignment = DateTimeGridAlignment.Day;
-
-            chartControlOlap.Legend.AlignmentHorizontal = LegendAlignmentHorizontal.Left;
-            chartControlOlap.Legend.BackColor = new Color();
-            ChartUtility.ConfigureChartSelection(chartControlOlap);
-            chartControlOlap.VisibleChanged += chart_VisibleChanged;
-            ((XYDiagram)chartControlOlap.Diagram).AxisY.Label.TextPattern = "{V:N}";
-            _isChartInitialized = false;
-        }
-
-        private void BindChart()
-        {
-            TrimTimeFromDateFields();
-            if (IsAnyFilterParamSet)
-                TraceSearch();
-
-            OlapUtility.SetPivotFieldDateFilter(pivotGridControlForChart, DateFilter, txtPeriodFrom.EditValue, txtPeriodTo.EditValue);
-
-            OlapUtility.SetPivotFieldIdFilter(pivotGridControlForChart, "[Номенклатура-Группа].[Ключ].[Ключ]", FilterUtility.GetFilterKeyValue(cmbGroup.EditValue), true);
-
-            // Подгруппа  cmbSubgroup - id_subgroup - 
-            var subgroupFilterValue = FilterUtility.GetSubgroupFilter(cmbSubgroup.EditValue);
-            OlapUtility.SetPivotFieldIdFilter(pivotGridControlForChart, "[Номенклатура-Подгруппа].[Код подгруппы].[Код подгруппы]", subgroupFilterValue, true);
-            if (_isChartInitialized)
-            {
-                // Склад   txtStorage - storages_list - 
-                var ShpStorageFilterValue = FilterUtility.GetStorageFilter(txtAccepStorage.EditValue);
-                OlapUtility.SetPivotFieldIdFilter(pivotGridControlForChart, "[Склад].[Ключ абстрактный].[Ключ абстрактный]", ShpStorageFilterValue, true);
-
-                // Тип операции
-                // cmbPaymentType - payment_type_list - [Тип операции].[Ключ].[Ключ]
-                var paymentTypeFilter = FilterUtility.GetFilterKeyValue(_paymentTypeFilter.Control.EditValue);
-                if (paymentTypeFilter == null)
-                    paymentTypeFilter = new object[0];
-
-                OlapUtility.SetPivotFieldIdFilter(pivotGridControlForChart, "[Тип операции].[Ключ].[Ключ]", paymentTypeFilter, true);
-            }
-
-            OlapUtility.SetPivotFieldIdFilter(pivotGridControlForChart, "[Поставщик].[Ключ].[Ключ]", FilterUtility.GetFilterKeyValue(txtContract.EditValue), true);
-
-            // cmbProducer 
-            var producerFilterValue = FilterUtility.GetProducerFilter(cmbProducer.EditValue);
-            OlapUtility.SetPivotFieldIdFilter(pivotGridControlForChart, "[Номенклатура].[ПроизводительКлюч].[ПроизводительКлюч]", producerFilterValue, true);
-
-            OlapUtility.SetPivotFieldIdFilter(pivotGridControlForChart, "[Ответственный за подгруппу].[Id_abstract_contractor].[Id_abstract_contractor]", FilterUtility.GetFilterKeyValue(txtResponsibleManager.EditValue), true);
-            OlapUtility.SetPivotFieldIdFilter(pivotGridControlForChart, "[Ответственный за филиал].[id_responsible_abstract].[id_responsible_abstract]", FilterUtility.GetFilterKeyValue(txtResponsibleForDeliveryToBranch.EditValue), true);
-            
-            OlapUtility.SetPivotFieldIdFilter(pivotGridControlForChart, "[Рейтинг по прибыли].[ABC по рейтингу товара по прибыли].[ABC по рейтингу товара по прибыли]", FilterUtility.GetFilterKeyValue(cmbGoodsProfitRating.EditValue), true);
-
-            //рейтинги продаж
-            var goodsSaleRating = FilterUtility.GetSaleRatingEditValues(cmbGoodSaleRating.Text);
-            var partSaleRating = FilterUtility.GetSaleRatingEditValues(cmbPartSaleRating.Text);
-
-            OlapUtility.SetPivotFieldIdFilter(pivotGridControlForChart, "[Рейтинг продаж].[ABC по рейтингу товара].[ABC по рейтингу товара]", FilterUtility.GetFilterKeyValue(goodsSaleRating[true]), true);
-            OlapUtility.SetPivotFieldIdFilter(pivotGridControlForChart, "[Рейтинг продаж региональный].[ABC по рейт. тов. рег].[ABC по рейт. тов. рег]", FilterUtility.GetFilterKeyValue(goodsSaleRating[false]), true);
-            OlapUtility.SetPivotFieldIdFilter(pivotGridControlForChart, "[Рейтинг продаж].[ABC по рейтингу детали].[ABC по рейтингу детали]", FilterUtility.GetFilterKeyValue(partSaleRating[true]), true);
-            OlapUtility.SetPivotFieldIdFilter(pivotGridControlForChart, "[Рейтинг продаж региональный].[ABC по рейт. дет. рег].[ABC по рейт. дет. рег]", FilterUtility.GetFilterKeyValue(partSaleRating[false]), true);
-
-            OlapUtility.SetPivotFieldIdFilter(pivotGridControlForChart, "[XYZ товара].[Ключ].[Ключ]", FilterUtility.GetFilterKeyValue(cmbXyz.EditValue), true);
-
-            OlapUtility.SetPivotFieldIdFilter(pivotGridControlForChart, "[Номенклатура-Характеристика товара].[Ключ характеристика товара].[Ключ характеристика товара]",
-                      FilterUtility.GetFilterKeyValue(cmbGoodsSpecifications.EditValue), true);
-
-            OlapUtility.SetPivotFieldIdFilter(pivotGridControlForChart, "[Номенклатура-Характеристика детали].[Ключ характеристика детали].[Ключ характеристика детали]",
-                      FilterUtility.GetFilterKeyValue(cmbPartSpecifications.EditValue), true);
-
-            OlapUtility.SetPivotFieldIdFilter(pivotGridControlForChart, "[Основание закупки].[Основание закупки].[Основание закупки]", FilterUtility.GetFilterKeyValue(cmbBasisOfPurchase.EditValue), true);
-            OlapUtility.SetPivotFieldIdFilter(pivotGridControlForChart, "[Тип заказа].[Тип заказа ключ].[Тип заказа ключ]", FilterUtility.GetFilterKeyValue(cmbOrderType.EditValue), true);
-            OlapUtility.SetPivotFieldIdFilter(pivotGridControlForChart, "[Операция продажи].[Ключ].[Ключ]", FilterUtility.GetFilterKeyValue(cmbOperation.EditValue), true);
-            OlapUtility.SetPivotFieldIdFilter(pivotGridControlForChart, "[Номенклатура].[КлючНеассортиментный].[КлючНеассортиментный]", FilterUtility.GetFilterKeyValue(cmbAssortimentGoods.EditValue), true);
-
-            DoApplyFilterToOlapChart();
-            _isChartInitialized = true;
-        }
-
-        private void RefreshAutoChart()
-        {
-            ChartUtility.RefreshAutoChart(pivotGrid, chartControlOlap, _isPointsLabelVisible);
-        }
-        #endregion
 
         #region IToolBarForm Members
 
@@ -968,9 +727,13 @@ namespace TruckService.ADTS.Client.AppForms.Grid
                 txtPeriodFrom.EditValue = DateTime.Today.AddMonths(-1).Date;
 
             if (tabChilds.SelectedTabPage == tbpChart)
-                OlapUtility.SetPivotFieldDateFilter(pivotGridControlForChart, DateFilter, txtPeriodFrom.EditValue, txtPeriodTo.EditValue);
+            {
+                // TODO
+            }
             else if (tabChilds.SelectedTabPage == tbpGrid)
+            {
                 OlapUtility.SetPivotFieldDateFilter(pivotGrid, DateFilter, txtPeriodFrom.EditValue, txtPeriodTo.EditValue);
+            }
 
             ApplyFilter();
         }
@@ -1000,7 +763,6 @@ namespace TruckService.ADTS.Client.AppForms.Grid
 
             InitialiseCube();
             InitGrid();
-            InitChart();
         }
 
         // обработка кнопки "скинуть значения всех фильтров" - обнуляет все текстовые и ставит период прошлый месяц до вчерашнего дня
@@ -1060,45 +822,12 @@ namespace TruckService.ADTS.Client.AppForms.Grid
         private void pivotGrid_FieldValueCollapsed(object sender, PivotFieldValueEventArgs e)
         {
             pivotGrid.Cells.Selection = Rectangle.Empty;
-            RefreshAutoChart();
-        }
-
-        private void pivotGridControlForChart_FieldValueCollapsed(object sender, PivotFieldValueEventArgs e)
-        {
-            RefreshAutoChartReport();
         }
 
         private void pivotGrid_FieldValueExpanded(object sender, PivotFieldValueEventArgs e)
         {
             pivotGrid.Cells.Selection = Rectangle.Empty;
-            RefreshAutoChart();
             EndWaitCursor();
-        }
-
-        private void pivotGridControlForChart_FieldValueExpanded(object sender, PivotFieldValueEventArgs e)
-        {
-            RefreshAutoChartReport();
-            EndWaitCursor();
-        }
-
-        private void pivotGrid_CellClick(object sender, PivotCellEventArgs e)
-        {
-            RefreshAutoChart();
-        }
-
-        private void pivotGridControlForChart_CellClick(object sender, PivotCellEventArgs e)
-        {
-            RefreshAutoChartReport();
-        }
-
-        private void pivotGrid_CellSelectionChanged(object sender, EventArgs e)
-        {
-            RefreshAutoChart();
-        }
-
-        private void pivotGridControlForChart_CellSelectionChanged(object sender, EventArgs e)
-        {
-            RefreshAutoChartReport();
         }
 
         private void gridLayout_EditValueChanged(object sender, EventArgs e)
@@ -1126,11 +855,6 @@ namespace TruckService.ADTS.Client.AppForms.Grid
             }
         }
 
-        private void pivotGrid_Click(object sender, EventArgs e)
-        {
-            RefreshAutoChart();
-        }
-
         //обработка смены закладок. пока их две- таблица и график
         private void tabChilds_SelectedPageChanged(object sender, TabPageChangedEventArgs e)
         {
@@ -1143,39 +867,16 @@ namespace TruckService.ADTS.Client.AppForms.Grid
             if (tabChilds.SelectedTabPage == tbpGrid)
             {
                 BindData();
-                if (pivotGridControlForChart.CustomizationForm == null)
-                    return;
-
-                if (pivotGridControlForChart.CustomizationForm.Visible)
-                    pivotGridControlForChart.CustomizationForm.Close();
             }
             else if (tabChilds.SelectedTabPage == tbpChart)
             {
-                BindChart();
-                if (pivotGrid.CustomizationForm == null)
-                    return;
-
-                if (pivotGrid.CustomizationForm.Visible)
-                    pivotGrid.CustomizationForm.Close();
+                // TODO
             }
-        }
-
-        private void RefreshAutoChartReport()
-        {
-            ChartUtility.ChangeChartPointLabelVisibility(chartReport, _isPointsLabelVisible);
-        }
-
-        private void pivotGridControlForChart_Click(object sender, EventArgs e)
-        {
-            RefreshAutoChartReport();
         }
 
         private void ToolBarButtonChartLegent_ItemClick(object sender, ItemClickEventArgs e)
         {
             _isLegendVisible = !_isLegendVisible;
-
-            ChartUtility.ChangeChartLegendVisibility(chartControlOlap, _isLegendVisible);
-            ChartUtility.ChangeChartLegendVisibility(chartReport, _isLegendVisible);
 
             RegistryUtility.IsRemainsReportChartLegendVisible = _isLegendVisible;
         }
@@ -1184,37 +885,7 @@ namespace TruckService.ADTS.Client.AppForms.Grid
         {
             _isPointsLabelVisible = !_isPointsLabelVisible;
 
-            ChartUtility.ChangeChartPointLabelVisibility(chartControlOlap, _isPointsLabelVisible);
-            ChartUtility.ChangeChartPointLabelVisibility(chartReport, _isPointsLabelVisible);
-
             RegistryUtility.IsRemainsReportChartPointLabelVisible = _isPointsLabelVisible;
-        }
-
-        private void chart_VisibleChanged(object sender, EventArgs e)
-        {
-            var chart = (ChartControl)sender;
-            if (chart.Visible)
-            {
-                ChartUtility.ChangeChartLegendVisibility(chart, _isLegendVisible);
-                ChartUtility.ChangeChartPointLabelVisibility(chart, _isPointsLabelVisible);
-            }
-        }
-
-        private void chartReport_ObjectHotTracked(object sender, HotTrackEventArgs e)
-        {
-            if (!(e.Object is Series) && !(e.Object is PointSeriesLabel) && !(e.Object is SideBySideBarSeriesLabel))
-            {
-                e.Cancel = true;
-            }
-        }
-
-        private void chartReport_ObjectSelected(object sender, HotTrackEventArgs e)
-        {
-            if (!(e.Object is Series) && !(e.Object is PointSeriesLabel) && !(e.Object is SideBySideBarSeriesLabel))
-            {
-                e.Cancel = true;
-                chartReport.ClearSelection(false);
-            }
         }
 
         private void RemainsTabularTelerikReportFormKeyUp(object sender, KeyEventArgs e)
@@ -1225,9 +896,13 @@ namespace TruckService.ADTS.Client.AppForms.Grid
             using (new WaitCursor())
             {
                 if (tabChilds.SelectedTabPage == tbpChart)
-                    BindChart();
+                {
+                    // TODO
+                }
                 else if (tabChilds.SelectedTabPage == tbpGrid)
+                {
                     BindData();
+                }
             }
         }
 
@@ -1255,11 +930,10 @@ namespace TruckService.ADTS.Client.AppForms.Grid
             //    BeginInvoke(new MethodInvoker(Dispose));
             //}
 
-            pivotGrid.OLAPConnectionString = pivotGridControlForChart.OLAPConnectionString = connectionString;
+            pivotGrid.OLAPConnectionString = connectionString;
 
             // Автозагрузка полей (из перспективы, если указана)
             pivotGrid.RetrieveFields(PivotArea.DataArea, false);
-            pivotGridControlForChart.RetrieveFields(PivotArea.DataArea, false);
 
             OlapUtility.SetPivotGridOlapMode(pivotGrid, FieldsForCustomSort, CompositeFieldsForCustomSort);
         }
